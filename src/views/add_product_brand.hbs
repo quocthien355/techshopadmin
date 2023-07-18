@@ -1,0 +1,151 @@
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0">Dashboard</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Dashboard v1</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <section class="content ">
+        <!-- left column -->
+        <div class="row col-md-12 justify-content-center align-items-center">
+            <!-- jquery validation -->
+            <div class="card card-primary col-md-6">
+                <div class="card-header">
+                    <h3 class="card-title">Quick Example <small>jQuery Validation</small></h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+                <form name="form-example-2" id="form-example-2" enctype="multipart/form-data">
+
+                    <div class="input-field">
+                        <input type="text" name="name-2" id="name-2" value="John Doe">
+                        <label for="name-2" class="active">Name</label>
+                    </div>
+
+                    <div class="input-field">
+                        <input type="text" name="description-2" id="description-2"
+                            value="This form is already filed with some data, including images!">
+                        <label for="description-2" class="active">Description</label>
+                    </div>
+
+                    <div class="input-field">
+                        <label class="active">Photos</label>
+                        <div class="input-images-2" style="padding-top: .5rem;"></div>
+                    </div>
+
+                    <button onclick="submitform();">Submit and display data</button>
+
+                </form>
+            </div>
+
+        </div>
+        <!-- /.card -->
+</div>
+<!--/.col (left) -->
+<!-- right column -->
+<div class="col-md-6">
+
+</div>
+<!--/.col (right) -->
+
+<!-- /.row (main row) -->
+
+</section>
+<!-- /.content -->
+</div>
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+<!--Material Design Iconic Font-->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<!-- Image Uploader CSS -->
+<link rel="stylesheet" href="../../dist/css/image-uploader.min.css">
+
+<!-- Image Uploader Js -->
+<script type="text/javascript" src="../../dist/js/image-uploader.min.js"></script>
+<!-- jQuery -->
+<script src="../../plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- Select2 -->
+<script src="../../plugins/select2/js/select2.full.min.js"></script>
+<!-- Bootstrap4 Duallistbox -->
+<script src="../../plugins/bootstrap4-duallistbox/jquery.bootstrap-duallistbox.min.js"></script>
+<!-- InputMask -->
+<script src="../../plugins/moment/moment.min.js"></script>
+<script src="../../plugins/inputmask/jquery.inputmask.min.js"></script>
+<!-- date-range-picker -->
+<script src="../../plugins/daterangepicker/daterangepicker.js"></script>
+<!-- bootstrap color picker -->
+<script src="../../plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+<!-- Tempusdominus Bootstrap 4 -->
+<script src="../../plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+<!-- Bootstrap Switch -->
+<script src="../../plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
+<!-- BS-Stepper -->
+<script src="../../plugins/bs-stepper/js/bs-stepper.min.js"></script>
+<!-- dropzonejs -->
+<script src="../../plugins/dropzone/min/dropzone.min.js"></script>
+<!-- jquery-validation -->
+<script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="../../plugins/jquery-validation/additional-methods.min.js"></script>
+
+<!-- Summernote -->
+<script src="../../plugins/summernote/summernote-bs4.min.js"></script>
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script type="text/javascript" src="../../dist/js/image-uploader.min.js"></script>
+
+<!-- jquery-validation -->
+<script src="../../plugins/jquery-validation/jquery.validate.min.js"></script>
+<script src="../../plugins/jquery-validation/additional-methods.min.js"></script>
+<script>
+    $(function () {
+
+        $('.input-images-1').imageUploader();
+
+        let preloaded = [
+            { id: 1, src: 'https://picsum.photos/500/500?random=1' },
+            { id: 2, src: 'https://picsum.photos/500/500?random=2' },
+            { id: 3, src: 'https://picsum.photos/500/500?random=3' },
+            { id: 4, src: 'https://picsum.photos/500/500?random=4' },
+            { id: 5, src: 'https://picsum.photos/500/500?random=5' },
+            { id: 6, src: 'https://picsum.photos/500/500?random=6' },
+        ];
+
+        $('.input-images-2').imageUploader({
+            preloaded: preloaded,
+            imagesInputName: 'photos',
+            preloadedInputName: 'old'
+        });
+
+
+        
+
+
+    });
+    function submitform(){
+                        // get value
+                var product_name = $('#form-example-2').find('input[name="photos[]"]').val();
+                console.log("::::::::::" + product_name)
+
+
+                alert("Form successful submitted!");
+    }
+</script>
