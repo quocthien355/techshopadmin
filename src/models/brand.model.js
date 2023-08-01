@@ -16,7 +16,7 @@ db.query(sqlBrand, function (error, results, fields) {
 
 module.exports.addBrand = (brand_name) => {
 
-    const sql = "INSERT INTO brands  ( brand_name) values ( ? );"
+    const sql = "INSERT INTO brands  ( brand_name) values ( ? ); " 
 
     return new Promise((resolve, reject) => {
         db.query(sql, brand_name, (error, results) => {
@@ -51,7 +51,7 @@ module.exports.updateBrand = (id, brand_name) => {
 
 }
 module.exports.getAllBrand = () => {
-    const sql = 'SELECT * FROM brands '
+    const sql = 'SELECT brand_id,brand_name FROM brands '
 
     return new Promise((resolve, reject) => {
         db.query(sql, (error, results) => {

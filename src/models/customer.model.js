@@ -8,6 +8,7 @@ var sqlCustomer = "CREATE TABLE IF NOT EXISTS customers (  " +
     "image VARCHAR ( 255 )," +
     "role VARCHAR ( 10 ) NOT NULL ," +
     "refresh_token VARCHAR ( 255 )  ," +
+    "name VARCHAR ( 255 )  ," +
     "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
 
 db.query(sqlCustomer, function (error, results, fields) {
@@ -32,10 +33,21 @@ module.exports.addCustomer = (customer) => {
 
 }
 module.exports.getCustomer = (phone_number) => {
-    const sql = 'SELECT*FROM customers WHERE _phone_number = ? '
+    const sql = 'SELECT_phone_number, gender, customer_name,role,_password,refresh_token FROM customers WHERE _phone_number = ? '
 
     return new Promise((resolve, reject) => {
         db.query(sql, phone_number, (error, results) => {
+            if (error) { reject(error); }
+            resolve(results);
+        });
+    });
+}
+
+module.exports.getAllCustomer = (phone_number) => {
+    const sql = 'SELECT _phone_number, gender, customer_name,created_at  FROM customers WHERE role= "User"'
+
+    return new Promise((resolve, reject) => {
+        db.query(sql, (error, results) => {
             if (error) { reject(error); }
             resolve(results);
         });

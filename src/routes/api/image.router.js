@@ -1,27 +1,42 @@
 var express = require('express');
 const { getAllImage } = require('../../controllers/image.controller');
 const upload = require('../../middlewares/upload.middeware');
+const { uploadImage } = require('../../services/image.service');
 var router = express.Router();
 
 
 router.get('/get-list-images', getAllImage);
-router.post('/upload', [upload.array('image', 3)], async (req, res, next) => {
+router.post('/upload', [upload.array('image')], async (req, res, next) => {
     try {
-        const { files } = req;
-        console.log(files);
-        let image_urls = [];
-        files.forEach(file => {
-            const image = file ? file.filename : "";
-            const url = image ? "http://localhost:3000/uploads/" + image : "";
-            image_urls.push({ url: url });
-        });
+        const { files } = req;   
+       if(files.length>0){
+        let imageUrls = []
+        for await (const file of files) {
+            imageUrls.push({ url: await uploadImage(file) });
+        }
 
-        res.json({
+        console.log('File successfully uploaded.');
+        return res.json({
             message: "uploaded !!!",
-            images: image_urls
+            urls: imageUrls
         })
+       }else{
+        return res.json({
+            message: "upload fail : no file",
+         
+        })
+       }
+
+
+
+
     } catch (error) {
         console.log(error.message);
+        res.status(500).json({
+            message: "upload fail !!!",
+
+        })
     }
 });
+
 module.exports = router

@@ -5,7 +5,7 @@ var sqlProduct = "CREATE TABLE IF not EXISTS products (" +
     "  product_id INT  PRIMARY KEY AUTO_INCREMENT NOT NULL," +
     "  product_name VARCHAR(255) NOT NULL," +
     " price FLOAT NOT NULL," +
-    " description VARCHAR(255) ," +
+    " description LONGTEXT ," +
     " quantity INT NOT NULL," +
     " category_id INT NOT NULL," +
     " brand_id INT NOT NULL," +
@@ -43,4 +43,13 @@ module.exports.getAllProduct = () => {
         });
     });
 }
+module.exports.getProductById = (product_id) => {
+    const sql = "SELECT product_id,product_name,price,quantity,categories.category_id,brands.brand_id,description FROM products,categories,brands WHERE products.brand_id=brands.brand_id AND products.category_id=categories.category_id AND product_id=?"
+    return new Promise((resolve, reject) => {
+        db.query(sql, product_id, (error, results) => {
+            if (error) { reject(error); }
+            resolve(results);
+        });
+    });
 
+}

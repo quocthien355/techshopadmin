@@ -5,12 +5,12 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>DataTables</h1>
+                    <h1>Products</h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">DataTables</li>
+                        <li class="breadcrumb-item active"> List Products</li>
                     </ol>
                 </div>
             </div>
@@ -20,16 +20,15 @@
     <!-- Main content -->
     <section class="content">
 
-        <div class="card-body col-md-12">
-            <table id="example1" class="table table-bordered table-striped">
+        <div class="card-body col-md-12 ">
+            <table id="example1" class="table table-bordered table-striped ">
                 <thead>
                     <tr>
                         <th>Product Name</th>
-                        <th>Price</th>
+                        <th>Price (vnđ)</th>
                         <th>Quantity</th>
                         <th>Category</th>
                         <th>Brand</th>
-                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -41,14 +40,13 @@
                         <td align="right">{{this.quantity}}</td>
                         <td>{{this.category_name}}</td>
                         <td>{{this.brand_name}}</td>
-                        <td>{{this.description}}</td>
                         <td class="project-actions text-right" style="width: 18%;">
                             <a class="btn btn-primary btn-sm" href="#">
                                 <i class="fas fa-folder">
                                 </i>
                                 View
                             </a>
-                            <a class="btn btn-info btn-sm" href="#">
+                            <a class="btn btn-info btn-sm" href=" /product/edit-product/{{this.product_id}}">
                                 <i class="fas fa-pencil-alt">
                                 </i>
                                 Edit
@@ -65,11 +63,10 @@
                 <tfoot>
                     <tr>
                         <th>Product Name</th>
-                        <th>Price</th>
+                        <th>Price (vnđ)</th>
                         <th>Quantity</th>
                         <th>Category</th>
                         <th>Brand</th>
-                        <th>Description</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -106,6 +103,16 @@
 {{!--
 <script src="../../dist/js/demo.js"></script> --}}
 <!-- Page specific script -->
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+    async function editProduct(product_id) {
+        const url = "http://localhost:3000/product/edit-product/" + product_id;
+        const response = await fetch(url, {
+            method: "POST",
+        });
+    }
+</script>
 <script>
     $(function () {
         $("#example1").DataTable({

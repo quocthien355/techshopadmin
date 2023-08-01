@@ -121,7 +121,7 @@ module.exports.loginWebAdmin = async (req, res) => {
         if (data == undefined) {
 
             res.cookie("error", 'Incorrect username or password');
-             res.redirect('/auth/login')
+            res.redirect('/auth/login')
 
 
 
@@ -149,7 +149,7 @@ module.exports.loginWebAdmin = async (req, res) => {
                 );
 
                 if (!accessToken) {
-                  
+
                     res.cookie("error", " Login fail,try again!!");
                     res.redirect('/auth/login')
                 } else {
@@ -168,5 +168,15 @@ module.exports.loginWebAdmin = async (req, res) => {
         console.log("err: " + error.message);
         res.cookie("error", " Login fail,try again!!");
         res.redirect('/auth/login')
+    }
+}
+module.exports.showListCustomer = async (req, res, next) => {
+    try {
+        const customers = await customerService.getAllCustomer();
+        console.log(customers);
+        res.render('list_customers', { customers })
+    } catch (error) {
+        console.log(error.message);
+        res.render('list_customers')
     }
 }

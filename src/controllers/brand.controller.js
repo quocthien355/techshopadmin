@@ -4,13 +4,16 @@ const { addBrand, getAllBrand, updateBrand, getBrandById } = require("../service
 
 module.exports.addBrand = async (req, res, next) => {
     try {
-        const { brand_name } = req.body;
-        if (brand_name) {
-            const result = await addBrand(brand_name);
+        const { name } = req.params;
+        if (name) {
+            const result = await addBrand(name);
             if (result) {
                 return res.json({
                     status: true,
                     message: 'Create brand success!!',
+                    data: {
+                        brand_id: result.insertId
+                    }
 
                 });
             } else {
@@ -21,7 +24,7 @@ module.exports.addBrand = async (req, res, next) => {
                 });
             }
         } else {
-            return res.json({
+            return    res.status(400).json({
                 status: false,
                 message: 'Field brand_name  is null !!',
 
@@ -29,7 +32,7 @@ module.exports.addBrand = async (req, res, next) => {
         }
     } catch (error) {
         console.log(error);
-        return res.json({
+        return    res.status(500).json({
             status: false,
             message: error.message,
 
@@ -74,9 +77,8 @@ module.exports.getAllBrand = async (req, res, next) => {
 
 module.exports.updateBrand = async (req, res, next) => {
     try {
-        const { brand_name } = req.body;
-        const { id } = req.params;
-        let result = await updateBrand(id, brand_name)
+        const { id,name } = req.params;
+        let result = await updateBrand(id, name)
         if (result) {
             const brand = await getBrandById(id);
 
@@ -89,7 +91,7 @@ module.exports.updateBrand = async (req, res, next) => {
                 ,
             });
         } else {
-            res.json({
+            res.status(400).json({
                 status: false,
                 message: 'Update fail !!',
 
@@ -97,11 +99,20 @@ module.exports.updateBrand = async (req, res, next) => {
         }
     } catch (error) {
         console.log(error);
-        return res.json({
+        return    res.status(500).json({
             status: false,
             message: error.message,
 
         });
     }
 
+}
+module.exports.showListBrand = async (req, res, next) => {
+    try {
+        const brands = await getAllBrand();
+        res.render('list_product_brands', { brands })
+    } catch (error) {
+        console.log(error.message);
+        res.render('list_product_brands')
+    }
 }

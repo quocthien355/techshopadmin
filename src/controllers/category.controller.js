@@ -4,9 +4,10 @@ const { addCategory, getAllCategory, updateCategory, getCategoryById } = require
 
 module.exports.addCategory = async (req, res, next) => {
     try {
-        const { category_name } = req.body;
-        if (category_name) {
-            const result = await addCategory(category_name);
+        const {name} = req.params;
+        console.log(":::::::::::::::::::"+name);
+        if (name) {
+            const result = await addCategory(name);
             if (result) {
                 return res.json({
                     status: true,
@@ -14,22 +15,22 @@ module.exports.addCategory = async (req, res, next) => {
 
                 });
             } else {
-                return res.json({
+                return res.status(400).json({
                     status: false,
                     message: 'Create category fail !!',
 
                 });
             }
         } else {
-            return res.json({
+            return res.status(400).json({
                 status: false,
                 message: 'Field category_name  is null !!',
 
             });
         }
     } catch (error) {
-        console.log(error);
-        return res.json({
+        console.log(error.message);
+        return res.status(500).json({
             status: false,
             message: error.message,
 
@@ -74,9 +75,8 @@ module.exports.getAllCategory = async (req, res, next) => {
 
 module.exports.updateCategory = async (req, res, next) => {
     try {
-        const { category_name } = req.body;
-        const { id } = req.params;
-        let result = await updateCategory(id, category_name)
+        const { name ,id} = req.params;
+        let result = await updateCategory(id,name)
         if (result) {
             const category = await getCategoryById(id);
 
@@ -104,4 +104,13 @@ module.exports.updateCategory = async (req, res, next) => {
         });
     }
 
+}
+module.exports.showListCategory = async (req, res, next) => {
+    try {
+        const categories = await getAllCategory();
+        res.render('list_product_categories', { categories });
+    } catch (error) {
+        console.log(error.message);
+        res.render('list_product_categories');
+    }
 }

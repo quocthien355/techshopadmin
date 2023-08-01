@@ -1,14 +1,12 @@
 var express = require('express');
 var router = express.Router();
 var AuthMiddleware = require('../../middlewares/auth.middleware');
+const { showListBrand, addBrand, updateBrand } = require('../../controllers/brand.controller');
 var isAuth = AuthMiddleware.isAuth
 
-router.get('/list-product-brands', (req, res, next) => {
-  res.render('list_product_brands')
+router.get('/list-product-brands',showListBrand)
+router.post('/add-product-brand/:name', addBrand)
 
-})
-router.get('/add-product-brand', (req, res, next) => {
-  res.render('add_product_brand')
-})
+router.post('/edit-product-brand/:id/:name', updateBrand)
 
 module.exports = router;

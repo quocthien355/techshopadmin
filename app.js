@@ -7,6 +7,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 require('dotenv').config();
 
+
 //api router
 var authAPIRouter = require('./src/routes/api/auth.router');
 var productAPIRouter = require('./src/routes/api/product.router');
@@ -38,9 +39,10 @@ app.set('views', './src/views');
 hbs.registerPartials(__dirname + "./src/views/partials");
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
 // API router
 
 app.use('/api/auth', authAPIRouter);

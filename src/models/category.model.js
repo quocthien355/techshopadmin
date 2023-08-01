@@ -14,6 +14,16 @@ db.query(sqlCategory, function (error, results, fields) {
     }
 })
 
+module.exports.getAllCategory = () => {
+    const sql = "SELECT category_id,category_name FROM categories "
+    return new Promise((resolve, reject) => {
+        db.query(sql, (error, results) => {
+            if (error) { reject(error); }
+            resolve(results);
+        });
+    });
+}
+
 module.exports.addCategory = (category_name) => {
 
     const sql = "INSERT INTO categories  ( category_name) values ( ? );"
@@ -49,14 +59,4 @@ module.exports.updateCategory = (id, category_name) => {
         });
     });
 
-}
-module.exports.getAllCategory = () => {
-    const sql = 'SELECT * FROM categories '
-
-    return new Promise((resolve, reject) => {
-        db.query(sql, (error, results) => {
-            if (error) { reject(error); }
-            resolve(results);
-        });
-    });
 }
