@@ -150,7 +150,7 @@ module.exports.loginWebAdmin = async (req, res) => {
 
                 if (!accessToken) {
 
-                    res.cookie("error", " Login fail,try again!!");
+                    res.cookie("error", " Login fail, try again!!");
                     res.redirect('/auth/login')
                 } else {
 

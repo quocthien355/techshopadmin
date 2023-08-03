@@ -29,7 +29,7 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form id="quickForm">
+                <form id="quickForm"  method="post">
                     <div class="card-body">
                         <div class="form-group">
                             <label>Product name</label>
@@ -314,7 +314,6 @@
                         var url_origin = location.origin;
                         const response = await fetch(url_origin + "/product/add-product", {
                             method: "POST",
-
                             body: formData,
                         });
                         const result = await response.json();

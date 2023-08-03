@@ -29,17 +29,17 @@
                 </div>
                 <!-- /.card-header -->
                 <!-- form start -->
-                <form id="quickForm" action="/product/list-products">
+                <form id="quickForm" method="get" action="/product/list-products">
                     <div class="card-body">
                         <div class="form-group">
                             <label>Product name</label>
-                            <input type="text" name="product_name" id="product-name" value="{{product.product_name}}"
+                            <input type="text"  id="product-name" value="{{product.product_name}}"
                                 class="form-control" placeholder="Enter name">
                         </div>
 
                         <div class="form-group category">
                             <label>Category</label>
-                            <select id="category" name="category" class="form-control  select2bs4" style="width: 100%;">
+                            <select id="category"  class="form-control  select2bs4" style="width: 100%;">
                                 {{#each categories}}
                                 <option value="{{this.category_id}}">{{this.category_name}}</option>
                                 {{/each}}
@@ -47,7 +47,7 @@
                         </div>
                         <div class="form-group brand">
                             <label>Brand</label>
-                            <select id="brand" name="brand" class="form-control  select2bs4" style="width: 100%;">
+                            <select id="brand"  class="form-control  select2bs4" style="width: 100%;">
 
                                 {{#each brands}}
                                 <option value="{{this.brand_id}}">{{this.brand_name}}</option>
@@ -56,12 +56,12 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Quantity</label>
-                            <input type="number" name="quantity" class="form-control" value="{{product.quantity}}"
+                            <input type="number" id="quantity" class="form-control" value="{{product.quantity}}"
                                 placeholder="100">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputPassword1">Price</label>
-                            <input type="number" name="price" class="form-control" value="{{product.price}}"
+                            <input type="number" id="price" class="form-control" value="{{product.price}}"
                                 placeholder="20000">
                         </div>
 
@@ -74,7 +74,7 @@
                         <div class="form-group">
                             <label for="exampleInputPassword1 " class="label-description">Description</label>
 
-                            <textarea class="summernote" name="summernote" id="summernote" required
+                            <textarea class="summernote"  id="summernote" required
                                 data-msg="Please write something :)">{{product.description}}</textarea>
                         </div>
                     </div>
@@ -131,13 +131,8 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 {{!-- image --}}
-
-<link href="https://transloadit.edgly.net/releases/uppy/v1.6.0/uppy.min.css" rel="stylesheet">
-
-<script src="https://transloadit.edgly.net/releases/uppy/v1.6.0/uppy.min.js"></script>
 <script type="text/javascript" src="../../dist/js/image-uploader.min.js"></script>
 <link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-<link rel="stylesheet" type="text/css" href="../../dist/css/demo.css" />
 <link rel="stylesheet" href="../../dist/css/image-uploader.min.css">
 <style>
     /* For summernote override unordered and order list */
@@ -281,9 +276,7 @@
 
     });
     $('summernote')
-        .summernote(
-
-    )
+        .summernote()
         .on('summernote.change', function (customEvent, contents, $editable) {
             // Revalidate the content when its value is changed by Summernote
             fv.revalidateField('content');
@@ -299,62 +292,63 @@
         submitHandler: async function () {
 
             // get value
-            var product_name = $('#quickForm').find('input[name="product_name"]').val();
-            var category_id = $('#quickForm').find('select[name="category"]').val();
-            var brand_id = $('#quickForm').find('select[name="brand"]').val();
-            var quantity = $('#quickForm').find('input[name="quantity"]').val();
-            var price = $('#quickForm').find('input[name="price"]').val();
+            var product_name = $('#quickForm').find('input[id="product_name"]').val();
+            var category_id = $('#quickForm').find('select[id="category"]').val();
+            var brand_id = $('#quickForm').find('select[id="brand"]').val();
+            var quantity = $('#quickForm').find('input[id="quantity"]').val();
+            var price = $('#quickForm').find('input[id="price"]').val();
 
             var description = $('#summernote').summernote('code');
 
             var url_origin = location.origin;
-            const url = url_origin + "/product/edit-product/" + {{ product.product_id
-    }}
+            var id = "{{product.product_id}}"
+            const url = url_origin + "/product/edit-product/" + id
 
-        async function uploadMultiple(formData) {
-            try {
-                const response = await fetch(url, {
-                    method: "PUT",
+            async function uploadMultiple(formData) {
+                try {
+                    const response = await fetch(url, {
+                        method: "PUT",
 
-                    body: formData,
-                });
-                const result = await response.json();
-                if (result.status) {
-                    swal({
-                        title: "Good job!",
-                        text: "You edit product success !!!",
-                        icon: "success",
-                        button: false,
-                        timer: 3000,
+                        body: formData,
                     });
-
-                } else {
-                    swal({
-                        title: " Fail!",
-                        text: result.message,
-                        icon: "error",
-                    });
+                    const result = await response.json();
+                    if (result.status) {
+                        swal({
+                            title: "Good job!",
+                            text: "You edit product success !!!",
+                            icon: "success",
+                            button: false,
+                            timer: 3000,
+                        });
+                      // go to list products
+                        await fetch(url_origin + "/product/list-products/");
+                    } else {
+                        swal({
+                            title: " Fail!",
+                            text: result.message,
+                            icon: "error",
+                        });
+                    }
+                    console.log("Success:", result);
+                } catch (error) {
+                    console.error("Error:", error);
                 }
-                console.log("Success:", result);
-            } catch (error) {
-                console.error("Error:", error);
             }
-        }
 
 
-const formData = new FormData();
-    formData.append("product_name", product_name);
-    formData.append("category_id", category_id);
-    formData.append("brand_id", brand_id);
-    formData.append("quantity", quantity);
-    formData.append("price", price);
-    formData.append("description", description);
-    for (const [i, photo] of Array.from(item_images).entries()) {
-        formData.append("images", photo);
+            const formData = new FormData();
+            formData.append("product_name", product_name);
+            formData.append("category_id", category_id);
+            formData.append("brand_id", brand_id);
+            formData.append("quantity", quantity);
+            formData.append("price", price);
+            formData.append("description", description);
+            for (const [i, photo] of Array.from(item_images).entries()) {
+                formData.append("images", photo);
 
-    }
+            }
 
-    uploadMultiple(formData);
+            uploadMultiple(formData);
 
 
         }

@@ -3,7 +3,6 @@ const { getAllCategory } = require('../services/category.service');
 const { getAllBrand } = require('../services/brand.service');
 const { getAllProduct, addProduct, getProductById, editProduct } = require('../services/product.service');
 const { addImage, getAllImage, uploadImage, getImageByIdProduct } = require('../services/image.service');
-
 module.exports.getAllProduct = async (req, res, next) => {
     try {
         let products = await getAllProduct();
@@ -132,7 +131,7 @@ module.exports.editProduct = async (req, res, next) => {
 
         const result = await editProduct(product.product_name, product.price, product.description, product.quantity, product.category_id, product.brand_id, id);
 
-         if (result) {
+        if (result) {
             // add images
             const { files } = req;
             if (files.length > 0) {
@@ -181,6 +180,24 @@ module.exports.showEditProduct = async (req, res, next) => {
         let product = await getProductById(id);
         console.log(product);
         res.render('edit_product', { layout: 'main.hbs', product: product[0], brands, categories });
+
+    } catch (error) {
+        console.log(error.message);
+
+    }
+}
+
+module.exports.showProduct = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const categories = await getAllCategory();
+        const brands = await getAllBrand();
+        let product = await getProductById(id);
+        const images = await getImageByIdProduct(id);
+        const formatPrice = (val) => {
+            return val.toLocaleString('it-IT', { style: 'currency', currency: 'VND' });
+        }
+        res.render('view_product', { layout: 'main.hbs', product: product[0], brands, categories, images, image: images[0], price: formatPrice(product[0].price) });
 
     } catch (error) {
         console.log(error.message);
